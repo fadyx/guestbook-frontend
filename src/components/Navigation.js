@@ -8,8 +8,8 @@ import { Toolbar } from "@material-ui/core";
 const Navigation = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-
   const handleLogout = () => dispatch(onLogout());
+  const isLoggedIn = user.token;
 
   return (
     <AppBar position="static">
@@ -18,7 +18,7 @@ const Navigation = () => {
         <Button color="inherit" component={Link} to="/">
           Home
         </Button>
-        {user.token && (
+        {isLoggedIn && (
           <Button color="inherit" component={Link} to="/messages">
             Messages
           </Button>
@@ -26,26 +26,28 @@ const Navigation = () => {
         <div
           style={{ marginLeft: "auto", display: "flex", alignItems: "center" }}
         >
-          {user.token && <p>logged in as: {user.displayname}</p>}
-          {user.token && (
-            <Button
-              color="secondary"
-              id="logout"
-              type="submit"
-              onClick={handleLogout}
-            >
-              Logout
-            </Button>
+          {isLoggedIn && (
+            <div>
+              logged in as: {user.displayname}
+              <Button
+                color="secondary"
+                id="logout"
+                type="submit"
+                onClick={handleLogout}
+              >
+                Logout
+              </Button>
+            </div>
           )}
-          {!user.token && (
-            <Button color="inherit" component={Link} to="/login">
-              Login
-            </Button>
-          )}
-          {!user.token && (
-            <Button color="inherit" component={Link} to="/signup">
-              Signup
-            </Button>
+          {!isLoggedIn && (
+            <div>
+              <Button color="inherit" component={Link} to="/login">
+                Login
+              </Button>
+              <Button color="inherit" component={Link} to="/signup">
+                Signup
+              </Button>
+            </div>
           )}
         </div>
       </Toolbar>

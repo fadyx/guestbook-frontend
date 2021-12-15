@@ -1,7 +1,7 @@
 import React from "react";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Table,
   TableContainer,
@@ -9,7 +9,6 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  Card,
 } from "@material-ui/core";
 
 import { Button } from "@material-ui/core";
@@ -52,6 +51,7 @@ const MessageList = () => {
                       variant="contained"
                       color="primary"
                       type="submit"
+                      size="small"
                       onClick={() => handleDeleteMessage(message)}
                     >
                       Delete

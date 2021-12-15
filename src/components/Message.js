@@ -2,25 +2,27 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
+import { TextField, Button } from "@material-ui/core";
+
+import messageService from "../services/messages";
 
 import { deleteMessage, updateMessage } from "../reducers/messageReducer";
 import { createNotifiation } from "../reducers/notificationReducer";
-import { TextField, Button } from "@material-ui/core";
-import messageService from "../services/messages";
 
 const Message = () => {
   const dispatch = useDispatch();
+
   const id = useParams().id;
   const history = useHistory();
   const user = useSelector((state) => state.user);
-
-  const [showUpdateField, setShowUpdateField] = useState(false);
-
   const message = useSelector((state) =>
     state.messages.find((message) => message._id === id)
   );
 
+  const [showUpdateField, setShowUpdateField] = useState(false);
   const [replies, setReplies] = useState([]);
+  const [reply, setReply] = useState("");
+  const [updatedMessage, setUpdatedMessage] = useState("");
 
   const fetchReplies = async () => {
     const fetchedReplies = await messageService.getReplies(id);
@@ -30,9 +32,6 @@ const Message = () => {
   useEffect(() => {
     fetchReplies();
   }, []);
-
-  const [reply, setReply] = useState("");
-  const [updatedMessage, setUpdatedMessage] = useState("");
 
   const handleDeleteMessage = async (event) => {
     event.preventDefault();
@@ -64,7 +63,7 @@ const Message = () => {
     }
   };
 
-  if (!message) return null;
+  if (!message) return <div>Message not found!</div>;
 
   return (
     <div className={"messageStyle"}>
@@ -137,7 +136,7 @@ const Message = () => {
       </Button>
       <ul>
         {replies.map((r) => (
-          <li style={{ marginLeft: 1 + "em", color: "black" }} key={r.id}>
+          <li style={{ marginLeft: "2em", color: "black" }} key={r._id}>
             {r.text} - by: {r.user.displayname}
           </li>
         ))}
