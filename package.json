@@ -1,6 +1,10 @@
 {
   "name": "guestbook-frontend",
   "version": "0.1.0",
+  "engines": {
+    "node": "16.x",
+    "npm": "8.x"
+  },
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.0",
