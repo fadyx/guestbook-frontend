@@ -1,0 +1,40 @@
+* {
+  margin: 0.2em;
+  padding: 0.2em;
+  box-sizing: border-box;
+}
+
+.error {
+  color: red;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.success {
+  color: green;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+hr {
+  padding: 0;
+  border: 1px solid goldenrod;
+}
+
+.messageStyle {
+  padding: 2px 10px 0 0;
+  border: 1px solid black;
+  margin-bottom: 10px;
+}
+
+button {
+  margin: 0.5em;
+}
