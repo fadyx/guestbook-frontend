@@ -12,6 +12,11 @@ const messageReducer = (state = [], action) => {
     case "DELETE_MESSAGE":
       return state.filter((message) => message._id !== action.data._id);
 
+    case "UPDATE_MESSAGE":
+      return state.map((message) =>
+        message._id === action.data._id ? action.data : message
+      );
+
     default: {
       return state;
     }
@@ -57,6 +62,21 @@ export const deleteMessage = (message) => {
         data: { _id: message._id },
       });
       dispatch(createNotifiation(`Successfully removed message.`, "success"));
+    } catch (error) {
+      dispatch(createNotifiation(error.message, "error"));
+    }
+  };
+};
+
+export const updateMessage = (message) => {
+  return async (dispatch) => {
+    try {
+      const updatedMessage = await messageService.update(message);
+      dispatch({
+        type: "UPDATE_MESSAGE",
+        data: updatedMessage,
+      });
+      dispatch(createNotifiation(`Successfully updated message.`, "success"));
     } catch (error) {
       dispatch(createNotifiation(error.message, "error"));
     }

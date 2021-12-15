@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
 
-import { deleteMessage } from "../reducers/messageReducer";
+import { deleteMessage, updateMessage } from "../reducers/messageReducer";
 import { createNotifiation } from "../reducers/notificationReducer";
 import { TextField, Button } from "@material-ui/core";
 import messageService from "../services/messages";
@@ -13,6 +13,8 @@ const Message = () => {
   const id = useParams().id;
   const history = useHistory();
   const user = useSelector((state) => state.user);
+
+  const [showUpdateField, setShowUpdateField] = useState(false);
 
   const message = useSelector((state) =>
     state.messages.find((message) => message._id === id)
@@ -30,12 +32,22 @@ const Message = () => {
   }, []);
 
   const [reply, setReply] = useState("");
+  const [updatedMessage, setUpdatedMessage] = useState("");
 
   const handleDeleteMessage = async (event) => {
     event.preventDefault();
     if (window.confirm(`Do you really want to remove this message?`)) {
       await dispatch(deleteMessage(message));
       history.push("/messages");
+    }
+  };
+
+  const handleUpdateMessage = async (event) => {
+    event.preventDefault();
+    if (updatedMessage) {
+      dispatch(updateMessage({ ...message, text: updatedMessage }));
+      setUpdatedMessage("");
+      setShowUpdateField(false);
     }
   };
 
@@ -79,10 +91,30 @@ const Message = () => {
             size="small"
             color="primary"
             type="submit"
-            onClick={handleDeleteMessage}
+            onClick={() => setShowUpdateField(!showUpdateField)}
           >
             Edit
           </Button>
+
+          {showUpdateField && (
+            <div>
+              <TextField
+                placholder="Add updated message here.."
+                type="text"
+                value={updatedMessage}
+                onChange={({ target }) => setUpdatedMessage(target.value)}
+              ></TextField>
+              <Button
+                style={{ margin: 10 + "px" }}
+                variant="contained"
+                color="primary"
+                type="submit"
+                onClick={handleUpdateMessage}
+              >
+                Submit Update
+              </Button>
+            </div>
+          )}
           <hr />
         </div>
       )}
